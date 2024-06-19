@@ -3,6 +3,7 @@ import 'package:openbook/StateManagement/favorite_provider.dart';
 import 'package:openbook/StateManagement/providers.dart';
 
 import 'package:openbook/View/main_page.dart';
+import 'package:openbook/View/splash_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: BookScreen(),
+      home: SplashScreen(),
     );
   }
 }

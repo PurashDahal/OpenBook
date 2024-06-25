@@ -6,7 +6,7 @@ import 'package:openbook/API/model.dart';
 
 class ApiService {
   final List<String> apiUrls = [
-    for (int i = 101; i <= 200; i++) "http://192.168.1.70:4999/api/things/$i"
+    for (int i = 101; i <= 200; i++) "http://192.168.1.129:4999/api/things/$i"
   ];
 
   Future<List<Book>> fetchBooks() async {

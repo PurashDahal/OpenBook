@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:openbook/API/model.dart';
 import 'package:openbook/StateManagement/favorite_provider.dart';
 import 'package:openbook/StateManagement/providers.dart';
@@ -15,13 +16,15 @@ class BookScreen extends StatefulWidget {
   _BookScreenState createState() => _BookScreenState();
 }
 
-class _BookScreenState extends State<BookScreen> {
+class _BookScreenState extends State<BookScreen> with TickerProviderStateMixin {
   TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
+  late final AnimationController _controller;
 
   @override
   void initState() {
     super.initState();
+    _controller = AnimationController(vsync: this);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<BookProvider>(context, listen: false).fetchBooks();
     });
@@ -30,6 +33,7 @@ class _BookScreenState extends State<BookScreen> {
   @override
   void dispose() {
     _searchController.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -64,7 +68,34 @@ class _BookScreenState extends State<BookScreen> {
       body: Consumer<BookProvider>(
         builder: (context, bookProvider, child) {
           if (bookProvider.isLoading) {
-            return Center(child: CircularProgressIndicator());
+            return Container(
+              height: double.infinity,
+              width: double.infinity,
+              color: Colors.white,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Lottie.asset(
+                    'assets/animations/book8.json',
+                    controller: _controller,
+                    onLoaded: (composition) {
+                      _controller
+                        ..duration = composition.duration
+                        ..forward()
+                        ..repeat();
+                    },
+                  ),
+                  Text(
+                    "LOADING ...",
+                    style: GoogleFonts.adamina(
+                      textStyle: TextStyle(
+                          fontSize: 24, color: Color.fromARGB(255, 2, 87, 157)),
+                    ),
+                  )
+                ],
+              ),
+            );
           } else if (bookProvider.books.isEmpty) {
             return Center(child: Text('No data'));
           } else {

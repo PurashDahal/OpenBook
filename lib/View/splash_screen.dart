@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:openbook/View/login.dart';
+import 'package:openbook/View/login_status.dart';
 import 'dart:async';
 
 import 'package:openbook/View/main_page.dart';
+import 'package:openbook/View/signup.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -30,9 +32,13 @@ class _SplashScreenState extends State<SplashScreen>
     _animationController.forward();
 
     Timer(Duration(seconds: 4), () {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => LoginScreen()),
-      );
+      LoginStatus.isLoggedIn == false
+          ? Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => LoginScreen()),
+            )
+          : Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => BookScreen()),
+            );
     });
   }
 
